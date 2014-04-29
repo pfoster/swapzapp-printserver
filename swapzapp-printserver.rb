@@ -31,7 +31,7 @@ end
 
 # Index
 get '/jobs/?' do
-  Job.all.to_json
+  puts Job.all.to_json
 end
 
 # Find
