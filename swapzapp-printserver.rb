@@ -22,14 +22,15 @@ configure do
   Mongoid.load!(File.dirname(__FILE__) + '/mongoid.yml')
 end
 
-def self.printing
-    exec("echo #{self.template} > ./public/template.txt")
-    exec("lpr -P #{self.printer} -o raw ./public/template.txt")
-end
-
-
 before '*' do
   content_type :json
+end
+
+# Methods
+def self.printing
+    t = "./public/template.txt"
+    exec("echo #{self.template} > #{t}")
+    exec("lpr -P #{self.printer} -o raw #{t}")
 end
 
 # Index available printers
