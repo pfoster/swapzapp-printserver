@@ -42,7 +42,7 @@ get '/jobs/:id/?' do
     @job = Job.find(params[:id])
     File.open("./tmp/template.txt", 'w') { |file| file.write(@job.template.to_s) }
     system("lpr -P #{@job.printer.to_s} -o raw ./tmp/template.txt")
-    @job.template.to_s
+    @job.to_json
   rescue
     status 404
   end
@@ -51,6 +51,8 @@ end
 # Create and print
 post '/jobs/?' do
   @job = Job.create(JSON.parse(request.body.read))
+  File.open("./tmp/template.txt", 'w') { |file| file.write(@job.template.to_s) }
+  system("lpr -P #{@job.printer.to_s} -o raw ./tmp/template.txt")
   status 201
 end
 
