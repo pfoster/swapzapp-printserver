@@ -28,14 +28,19 @@ end
 
 # Methods
 def self.printing
-    t = "./public/template.txt"
-    exec("echo #{self.template} > #{t}")
-    exec("lpr -P #{self.printer} -o raw #{t}")
+    t = "./tmp/template.txt"
+    system("echo #{self.template} > #{t}")
+    system("lpr -P #{self.printer} -o raw #{t}")
+end
+
+# Index jobs
+get '/jobs/?' do
+  puts Job.all.to_json
 end
 
 # Index available printers
-get '/jobs/?' do
-  puts Job.all.to_json
+get '/printers' do
+
 end
 
 # Find and print
