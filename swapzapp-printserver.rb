@@ -23,8 +23,8 @@ configure do
 end
 
 def self.printing
-    exec("echo #{self.template} > ./public/job.txt")
-    exec("lpr -P #{self.printer} -o raw ./public/job.txt")
+    exec("echo #{self.template} > ./public/template.txt")
+    exec("lpr -P #{self.printer} -o raw ./public/template.txt")
 end
 
 
