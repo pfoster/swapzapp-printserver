@@ -24,6 +24,11 @@ GEM
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
+    rails_12factor (0.0.2)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.2)
+    rails_stdout_logging (0.0.3)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -38,4 +43,5 @@ PLATFORMS
 DEPENDENCIES
   foreman
   mongoid
+  rails_12factor
   sinatra

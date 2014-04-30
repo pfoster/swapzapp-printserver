@@ -5,16 +5,57 @@ ENV['RACK_ENV'] ||= 'development'
 
 Bundler.require(:default)
 
-class Swatch
+class Job
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  field :printjob,  type: Text
-  field :printername, type: String
+  field :completed, type: Boolean
+  field :template,  type: Text
+  field :printer,   type: String
+
+
 end
 
 configure do
   set :root,    File.dirname(__FILE__)
   
   Mongoid.load!(File.dirname(__FILE__) + '/mongoid.yml')
+end
+
+def self.printing
+    exec("echo #{self.template} > ./public/job.txt")
+    exec("lpr -P #{self.printer} -o raw ./public/job.txt")
+end
+
+
+before '*' do
+  content_type :json
+end
+
+# Index available printers
+get '/jobs/?' do
+  puts Job.all.to_json
+end
+
+# Find and print
+get '/jobs/:id/?' do
+  begin
+    Job.find(params[:id]).to_json
+    Job.printing
+  rescue
+    status 404
+  end
+end
+
+# Create and print
+post '/jobs/?' do
+  Job.create(JSON.parse(request.body.read))
+  Job.printing
+  status 201
+end
+
+
+not_found do
+  status 404
+  ""
 end
