@@ -10,7 +10,7 @@ class Job
   include Mongoid::Timestamps
   
   field :completed, type: Boolean
-  field :template,  type: Text
+  field :template,  type: String
   field :printer,   type: String
 
 
