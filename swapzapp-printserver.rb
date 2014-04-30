@@ -9,11 +9,9 @@ class Job
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  field :name,      type: String
-  field :to,        type: String
-  field :from,      type: String
-  field :date,      type: String
   field :completed, type: Boolean
+  field :template,  type: Text
+  field :printer,   type: String
 
 
 end
@@ -24,48 +22,38 @@ configure do
   Mongoid.load!(File.dirname(__FILE__) + '/mongoid.yml')
 end
 
+def self.printing
+    exec("echo #{self.template} > ./public/job.txt")
+    exec("lpr -P #{self.printer} -o raw ./public/job.txt")
+end
+
 
 before '*' do
   content_type :json
 end
 
-# Index
+# Index available printers
 get '/jobs/?' do
   puts Job.all.to_json
 end
 
-# Find
+# Find and print
 get '/jobs/:id/?' do
   begin
     Job.find(params[:id]).to_json
+    Job.printing
   rescue
     status 404
   end
 end
 
-# Create
+# Create and print
 post '/jobs/?' do
   Job.create(JSON.parse(request.body.read))
+  Job.printing
   status 201
 end
 
-# Update
-put '/jobs/:id/?' do
-  begin
-    Job.find(params[:id]).update_attributes(JSON.parse(request.body.read))
-  rescue
-    status 404
-  end
-end
-
-# Destroy
-delete '/jobs/:id' do
-  begin
-    Job.find(params[:id]).destroy
-  rescue
-    status 404
-  end
-end
 
 not_found do
   status 404
