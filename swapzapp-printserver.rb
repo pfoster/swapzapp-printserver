@@ -26,16 +26,9 @@ before '*' do
   content_type :json
 end
 
-# Methods
-def self.printing
-    t = "./tmp/template.txt"
-    system("echo #{self.template} > #{t}")
-    system("lpr -P #{self.printer} -o raw #{t}")
-end
-
 # Index jobs
 get '/jobs/?' do
-  puts Job.all.to_json
+  Job.all.to_json
 end
 
 # Index available printers
@@ -46,8 +39,10 @@ end
 # Find and print
 get '/jobs/:id/?' do
   begin
-    Job.find(params[:id]).to_json
-    Job.printing
+    @job = Job.find(params[:id])
+    File.open("./tmp/template.txt", 'w') { |file| file.write(@job.template.to_s) }
+    system("lpr -P #{@job.printer.to_s} -o raw ./tmp/template.txt")
+    @job.template.to_s
   rescue
     status 404
   end
@@ -55,8 +50,7 @@ end
 
 # Create and print
 post '/jobs/?' do
-  Job.create(JSON.parse(request.body.read))
-  Job.printing
+  @job = Job.create(JSON.parse(request.body.read))
   status 201
 end
 
