@@ -31,9 +31,12 @@ get '/jobs/?' do
   Job.all.to_json
 end
 
-# Index available printers
-get '/printers' do
-
+# Index printers
+get '/printers/?' do
+  data = `lpstat -a`
+  @lines = data.split("\n")
+  @printer_names = @lines.collect { |x| x.split(" ")[0] }
+  @printer_names.to_json
 end
 
 # Find and print
