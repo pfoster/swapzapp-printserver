@@ -1,10 +1,10 @@
-Resources
+#Resources
 
-    Jobs
-        GET    /jobs/?         :       index print jobs
-            Supported Formats       :       JSON
+    ##Jobs
+        ###GET    /jobs/?         :       index print jobs
+            ###Supported Formats       :       JSON
 
-            Example
+            ###Example
                 {
                     "job" : {
                         "job_id"    : "1234567",
@@ -14,16 +14,16 @@ Resources
                     }
                 }
 
-        GET    /jobs/:id/?     :       find print job by id and print it
-            Supported Formats       :       JSON
+        ###GET    /jobs/:id/?     :       find print job by id and print it
+            ###Supported Formats       :       JSON
                 
-        POST   /jobs/?         :       create new print job and print it
+        ###POST   /jobs/?         :       create new print job and print it
 
-    Printers
-        GET    /printers/?     :       index printers
-            Supported Formats       :       JSON
+    ##Printers
+        ###GET    /printers/?     :       index printers
+            ###Supported Formats       :       JSON
 
-            Example
+            ###Example
                 [
                     "Zebra_LP2844",
                     "printer2",
