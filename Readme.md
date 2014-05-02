@@ -5,7 +5,7 @@
 > ####index print jobs
 
 ####            Supported Formats       
-> ##### JSON
+###### JSON
 
 ####         Example
                 {
@@ -21,7 +21,7 @@
 > #### find print job by id and print it
 
 ####            Supported Formats       
-> ##### JSON
+###### JSON
                 
 ###        POST   /jobs/?         
 > #### create new print job and print it
@@ -31,7 +31,7 @@
 > #### index printers
 
 ####            Supported Formats       
-> ##### JSON
+###### JSON
 
 ###         Example
                 [
