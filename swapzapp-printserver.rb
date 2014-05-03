@@ -14,6 +14,19 @@ class Job
   field :printer,   type: String
 
 
+  # Print method
+  def printing
+    t = Tempfile.new(template)
+    begin
+      t.write(self.template.to_s)
+      t.rewind
+      system("lpr -P #{self.printer.to_s} -o raw #{t.read}")
+    ensure
+      t.close
+      t.unlink
+    end
+  end
+
 end
 
 configure do
@@ -43,22 +56,19 @@ end
 get '/jobs/:id/?' do
   begin
     @job = Job.find(params[:id])
-    File.open("./tmp/template.txt", 'w') { |file| file.write(@job.template.to_s) }
-    system("lpr -P #{@job.printer.to_s} -o raw ./tmp/template.txt")
+    @job.printing
     @job.to_json
   rescue
-    status 404
+    status 500
   end
 end
 
 # Create and print
 post '/jobs/?' do
   @job = Job.create(JSON.parse(request.body.read))
-  File.open("./tmp/template.txt", 'w') { |file| file.write(@job.template.to_s) }
-  system("lpr -P #{@job.printer.to_s} -o raw ./tmp/template.txt")
+  @job.printing
   status 201
 end
-
 
 not_found do
   status 404
