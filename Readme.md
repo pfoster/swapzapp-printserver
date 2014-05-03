@@ -1,13 +1,15 @@
 # Resources
 
 ## Jobs
-###        **GET**    /jobs/?         
+###        GET    /jobs/?         
 > ####index print jobs
 
 ####            Supported Formats       
-> ##### JSON
+###### JSON
 
 ####         Example
+
+```JSON
                 {
                     "job" : {
                         "job_id"    : "1234567",
@@ -16,36 +18,48 @@
                         "printer"   : "Zebra_LP2844"
                     }
                 }
+```
 
 #### Params
                 
-| Param Name    | Description   | Type  |
-| ------------- |:-------------:| -----:|
+| Param Name    | Description                               | Type    |
+| ------------- | ----------------------------------------- | -------:|
 | completed     | true if print job has been completed      | Boolean |
-| template      | string of raw printer code                | String |
-| printer       | name of printer job is being sent to      | String |
+| template      | string of raw printer code                | String  |
+| printer       | name of printer job is being sent to      | String  |
+
+---
 
 ###        GET    /jobs/:id/?     
 > #### find print job by id and print it
 
 ####            Supported Formats       
-> ##### JSON
+###### JSON
+
+---
                 
 ###        POST   /jobs/?         
 > #### create new print job and print it
+
+---
 
 ## Printers
 ###        GET    /printers/?     
 > #### index printers
 
 ####            Supported Formats       
-> ##### JSON
+###### JSON
 
 ###         Example
+
+```JSON
                 [
                     "Zebra_LP2844",
                     "printer2",
                     "printer3"
                 ]
+```
+
+---
 
 
